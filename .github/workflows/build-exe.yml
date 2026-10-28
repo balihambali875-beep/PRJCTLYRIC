@@ -17,7 +17,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Publish EXE (Self-Contained)
-      run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:PublishReadyToRun=true
+      run: dotnet publish **/*.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:PublishReadyToRun=true
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
