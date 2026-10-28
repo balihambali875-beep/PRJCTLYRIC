@@ -17,7 +17,12 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Publish EXE (Self-Contained)
-      run: dotnet publish **/*.csproj -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:PublishReadyToRun=true
+      shell: pwsh
+      run: |
+        $projectFile = Get-ChildItem -Filter *.csproj -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        if (-not $projectFile) { throw "File .csproj tidak ditemukan di repositori!" }
+        Write-Host "Membangun proyek: $projectFile"
+        dotnet publish $projectFile -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:PublishReadyToRun=true
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
